@@ -1,0 +1,28 @@
+﻿.some-class {
+    font-family: Arial, Helvetica, sans-serif;
+    position: relative;
+    color: crimson;
+    font-weight: bold;
+    font-size: larger;
+}
+
+.some-other-class {
+    font-family: Arial, Helvetica, sans-serif;
+    position: relative;
+    color: magenta;
+    font-weight: normal;
+    font-size: medium;
+}
+.branch-padding-10 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.googlemap {
+    height: 70%;
+    width: 100%;
+    margin-top: -90px;
+    min-height: 300px;
+}

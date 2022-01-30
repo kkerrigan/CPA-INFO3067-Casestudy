@@ -1,0 +1,22 @@
+﻿  [
+    {
+      "outputFileName": "wwwroot/css/site.min.css",
+      "inputFiles": [
+        "wwwroot/css/casestudy.css",
+        "wwwroot/css/modal.css"
+      ]
+    },
+    {
+      "outputFileName": "wwwroot/js/site.min.js",
+      "inputFiles": [
+        "wwwroot/js/casestudy.js",
+        "wwwroot/js/orderList.js",
+        "wwwroot/js/branchmap.js"
+      ],
+      "minify": {
+        "enabled": true,
+        "renameLocals": true
+      },
+      "sourceMap": false
+    }
+  ]

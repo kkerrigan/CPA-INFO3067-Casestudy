@@ -1,0 +1,82 @@
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/_Layout.cshtml";
+}
+<div class="col-sm-3">&nbsp;</div>
+<div class="panel col-sm-6 col-xs-12">
+    <div class="panel-title text-center" style="padding-top:20px;">
+        <h3 style="font-weight:bolder">Cart Contents</h3>
+        <img src="/img/logo.png" />
+    </div>
+    <div class="text-center" style="padding-top:10px;">
+        @{
+            Dictionary<string, object> cart = Context.Session.Get<Dictionary<string, Object>>(SessionVars.Cart);
+
+            decimal lineTotal = 0.0M;
+            decimal tax = 0.0M;
+            decimal total = 0.0M;
+            decimal grandTotal = 0.0M;
+
+        }
+        <table class="table table-striped">
+            <tr style="font-weight:bolder; background-color:lightskyblue;">
+
+                <th class="col-xs-4 text-center">Code</th>
+                <th class="col-xs-2 text-center">Product Name</th>
+                <th class="col-xs-1 text-right">Price</th>
+                <th class="col-xs-1 text-center">Qty</th>
+                <th class="col-xs-2 text-right">Extended</th>
+            </tr>
+            @{
+                if (cart != null)
+                {
+                    foreach (var key in cart.Keys)
+                    {
+                        ProductViewModel item = JsonConvert.DeserializeObject<ProductViewModel>
+                        (Convert.ToString(cart[key]));
+                        if (item.Qty > 0)
+                        {
+
+                            lineTotal += Decimal.Parse(String.Format("{0:.00}", item.MSRP * item.Qty));
+                            <tr>
+                                <td class="col-xs-2 text-left">@item.Id</td>
+                                <td class="col-xs-4 text-center">@item.ProductName</td>
+                                <td class="col-xs-1 text-right">@item.MSRP.ToString("c2")</td>
+                                <td class="col-xs-1 text-center">@item.Qty</td>
+                                <td class="col-xs-4 text-right">@lineTotal.ToString("c2")</td>
+                            </tr>
+                            total += lineTotal;
+                            lineTotal = 0;
+                        }
+                    }
+                    tax = Decimal.Parse(String.Format("{0:.00}", total * .13M));
+                    grandTotal = Decimal.Parse(String.Format("{0:.00}", total + tax));
+                }
+            }
+        </table>
+        <hr />
+        <table class="table table-striped" style="width:200px;" align="right">
+            <tr>
+                <th class="col-xs-4 text-right">Sub-Total:</th>
+                <td class="col-xs-4 text-right" id="total">@total.ToString("c2")</td>
+            </tr>
+            <tr>
+                <th class="col-xs-4 text-right">Tax:</th>
+                <td class="col-xs-4 text-right" id="tax">@tax.ToString("c2")</td>
+            </tr>
+            <tr>
+                <th class="col-xs-4 text-right">Order-Total:</th>
+                <td class="col-xs-4 text-right" id="grandTotal">@grandTotal.ToString("c2")</td>
+            </tr>
+        </table>
+        <div class="text-center">
+            <form asp-controller="Cart" asp-action="AddOrder" method="post" role="form">
+                @if (Context.Session.GetString(SessionVars.User) != null)
+                {
+                    <button type="submit" class="btn btn-sm btn-primary" id="modalbtn">Add Order</button>
+                }
+                &nbsp;<a href="/Cart/ClearCart" class="btn btn-sm btn-danger">Clear Cart</a>
+            </form>
+        </div>
+    </div>
+</div>
